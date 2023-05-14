@@ -1,0 +1,1 @@
+rootProject.name = "jointpurch.org.jointpurch-server"
