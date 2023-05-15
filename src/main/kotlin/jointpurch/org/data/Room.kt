@@ -3,8 +3,9 @@ package jointpurch.org.data
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class User(
+data class Room(
     var id: String,
-    var login: String,
-    var passwordHash: String?
+    var name: String,
+    var users: List<User>,
+    var items: List<Item>
 )
