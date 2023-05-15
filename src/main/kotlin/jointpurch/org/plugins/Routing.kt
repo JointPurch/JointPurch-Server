@@ -10,8 +10,14 @@ fun Application.configureRouting() {
         get("/") {
             call.respondText("Hello World!")
         }
-        get("/users"){
-            call.respond(UserManager.users)
+
+        route("/users"){
+            get{
+                call.respond(UserManager.users)
+            }
+        }
+        route("/rooms"){
+
         }
     }
 }
