@@ -19,11 +19,4 @@ object UserManager {
             )
         )
     }
-
-    fun checkUser(user: User): Boolean{
-        users.forEach {
-            if (user == it) return true
-        }
-        return false
-    }
 }
