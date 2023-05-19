@@ -6,6 +6,6 @@ import kotlinx.serialization.Serializable
 data class Room(
     var id: String,
     var name: String,
-    var users: List<User>,
-    var items: List<Item>
+    var users: MutableList<User>,
+    var items: MutableList<Item>
 )

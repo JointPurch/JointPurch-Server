@@ -9,6 +9,7 @@ import io.ktor.server.netty.*
 import io.ktor.server.plugins.contentnegotiation.*
 import jointpurch.org.data.User
 import jointpurch.org.plugins.*
+import java.io.File
 
 fun main() {
     embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::module)
@@ -37,9 +38,20 @@ fun Application.module() {
         }
     }
     configureRouting()
+    checkFiles()
 
     UserManager.addUser("Styopa", "gjiorj")
     UserManager.addUser("Vasya", "niuguhdi")
     UserManager.addUser("Petya", "gjiorj")
     RoomManager.addRoom("room123")
+}
+
+fun checkFiles(){
+    val jsonDir = File("/json/")
+    val roomFile = File(RoomManager.FILE_PATH)
+    val usersFile = File(RoomManager.FILE_PATH)
+
+    if(!jsonDir.exists()) jsonDir.mkdir()
+    if(!roomFile.exists()) roomFile.writeText("")
+    if(!usersFile.exists()) usersFile.writeText("")
 }
