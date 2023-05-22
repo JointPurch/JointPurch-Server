@@ -1,0 +1,27 @@
+[
+  {
+    "id": "3a584c1f-d71a-4838-b502-3a1106506f61",
+    "login": "Styopa",
+    "passwordHash": "gjiorj"
+  },
+  {
+    "id": "4f7ae603-e428-48e9-931a-1c1d1210d19e",
+    "login": "Vasya",
+    "passwordHash": "niuguhdi"
+  },
+  {
+    "id": "a9289453-cb2a-4151-ac11-bb90d0846d7d",
+    "login": "Petya",
+    "passwordHash": "gjiorj"
+  },
+  {
+    "id": "51aca869-72d4-463e-8539-6107e7d0fe38",
+    "login": "Styopa1",
+    "passwordHash": "gjiorj"
+  },
+  {
+    "id": "51aca869-72d4-463e-8539-6107e7d0fe38",
+    "login": "Styopa1",
+    "passwordHash": "gjiorj"
+  }
+]

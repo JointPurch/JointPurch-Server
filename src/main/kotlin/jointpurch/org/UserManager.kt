@@ -34,7 +34,7 @@ object UserManager {
         dump()
     }
 
-    private fun dump(){
+    fun dump(){
         try {
             PrintWriter(FileWriter(FILE_PATH)).use {
                 val gson = GsonBuilder().setPrettyPrinting().create()

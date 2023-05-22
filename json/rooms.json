@@ -1,0 +1,14 @@
+[
+  {
+    "id": "21595e72-41f3-43b9-b544-fddec15bf84e",
+    "name": "room123",
+    "users": [
+      {
+        "id": "a9289453-cb2a-4151-ac11-bb90d0846d7d",
+        "login": "Petya",
+        "passwordHash": "gjiorj"
+      }
+    ],
+    "items": []
+  }
+]

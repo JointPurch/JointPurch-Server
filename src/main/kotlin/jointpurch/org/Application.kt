@@ -1,5 +1,6 @@
 package jointpurch.org
 
+import io.ktor.http.*
 import io.ktor.serialization.gson.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
@@ -7,6 +8,8 @@ import io.ktor.server.auth.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.server.plugins.contentnegotiation.*
+import io.ktor.server.plugins.statuspages.*
+import io.ktor.server.response.*
 import jointpurch.org.data.User
 import jointpurch.org.plugins.*
 import java.io.File
@@ -37,13 +40,21 @@ fun Application.module() {
             }
         }
     }
+    install(StatusPages) {
+        status(HttpStatusCode.NotFound) { call, status ->
+            call.respondText(text = "404: Page Not Found", status = status)
+        }
+        status(HttpStatusCode.BadRequest){ call, status ->
+            call.respondText(text = "400: Bad Request", status = status)
+        }
+    }
     configureRouting()
     checkFiles()
 
-    UserManager.addUser("Styopa", "gjiorj")
-    UserManager.addUser("Vasya", "niuguhdi")
-    UserManager.addUser("Petya", "gjiorj")
-    RoomManager.addRoom("room123")
+//    UserManager.addUser("Styopa", "gjiorj")
+//    UserManager.addUser("Vasya", "niuguhdi")
+//    UserManager.addUser("Petya", "gjiorj")
+//    RoomManager.addRoom("room123")
 }
 
 fun checkFiles(){

@@ -1,5 +1,6 @@
 package jointpurch.org.plugins
 
+import io.ktor.http.*
 import io.ktor.server.routing.*
 import io.ktor.server.response.*
 import io.ktor.server.application.*
@@ -24,8 +25,12 @@ fun Application.configureRouting() {
             }
             post("/register"){
                 val user = call.receive<User>()
-                UserManager.addUser(user)
-                call.respond(user)
+                if (UserManager.users.none { it.id == user.id || it.login == user.login }){
+                    UserManager.addUser(user)
+                    call.respond(HttpStatusCode.OK)
+                }else{
+                    call.respond(HttpStatusCode.BadRequest)
+                }
             }
         }
 
@@ -35,14 +40,19 @@ fun Application.configureRouting() {
             }
             authenticate("auth-basic") {
                 get("/my"){
-                    val userName = call.principal<UserIdPrincipal>()!!.name
-                    call.respond(userName)
+                    val userId = call.principal<UserIdPrincipal>()!!.name
+                    val answer = RoomManager.rooms.filter { it.users.any { user -> user.id == userId } } // Room by userId
+                    call.respond(answer)
                 }
 
                 post("/register"){
                     val room = call.receive<Room>()
-                    RoomManager.addRoom(room)
-                    call.respond(room)
+                    if (RoomManager.rooms.none { it.id == room.id }){
+                        RoomManager.addRoom(room)
+                        call.respond(HttpStatusCode.OK)
+                    }else{
+                        call.respond(HttpStatusCode.BadRequest)
+                    }
                 }
 
                 post("/invite"){
@@ -55,9 +65,10 @@ fun Application.configureRouting() {
                             RoomManager.rooms.find { it.id == roomId }!!.users.none { it.id == userId }){ // User not in room
                         RoomManager.rooms.find { it.id == roomId }!!.users.add(UserManager.users.find { it.id == userId }!!) // Find room and add user
                     }else{
-                        call.respond("Bad data.")
+                        call.respond(HttpStatusCode.BadRequest)
                     }
-                    call.respond("User invited.")
+                    RoomManager.dump()
+                    call.respond(HttpStatusCode.OK)
                 }
 
                 post("/newitem"){
@@ -74,9 +85,10 @@ fun Application.configureRouting() {
                     if(RoomManager.rooms.any { it.id == roomId }){ // Room exists
                         RoomManager.rooms.find { it.id == roomId }!!.items.add(newItem) // Add new item
                     }else{
-                        call.respond("Bad data.")
+                        call.respond(HttpStatusCode.BadRequest)
                     }
-                    call.respond("Item added.")
+                    RoomManager.dump()
+                    call.respond(HttpStatusCode.OK)
                 }
 
                 post("/checkitem"){
@@ -89,9 +101,10 @@ fun Application.configureRouting() {
                         val item = RoomManager.rooms.find { it.id == roomId }!!.items.find { it.id == itemId }!! // Get item in the room
                         item.is_checked = !item.is_checked
                     }else{
-                        call.respond("Bad data.")
+                        call.respond(HttpStatusCode.BadRequest)
                     }
-                    call.respond("Item toggled.")
+                    RoomManager.dump()
+                    call.respond(HttpStatusCode.OK)
                 }
             }
         }
